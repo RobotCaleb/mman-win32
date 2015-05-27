@@ -21,6 +21,8 @@
 extern "C" {
 #endif
 
+#define MMAN_EXPORT __declspec(dllexport)
+
 #define PROT_NONE       0
 #define PROT_READ       1
 #define PROT_WRITE      2
@@ -41,12 +43,12 @@ extern "C" {
 #define MS_SYNC         2
 #define MS_INVALIDATE   4
 
-void*   mmap(void *addr, size_t len, int prot, int flags, int fildes, off_t off);
-int     munmap(void *addr, size_t len);
-int     mprotect(void *addr, size_t len, int prot);
-int     msync(void *addr, size_t len, int flags);
-int     mlock(const void *addr, size_t len);
-int     munlock(const void *addr, size_t len);
+MMAN_EXPORT void*   mmap(void *addr, size_t len, int prot, int flags, int fildes, off_t off);
+MMAN_EXPORT int     munmap(void *addr, size_t len);
+MMAN_EXPORT int     mprotect(void *addr, size_t len, int prot);
+MMAN_EXPORT int     msync(void *addr, size_t len, int flags);
+MMAN_EXPORT int     mlock(const void *addr, size_t len);
+MMAN_EXPORT int     munlock(const void *addr, size_t len);
 
 #ifdef __cplusplus
 };

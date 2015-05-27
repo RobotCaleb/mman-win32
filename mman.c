@@ -55,7 +55,7 @@ static DWORD __map_mmap_prot_file(const int prot)
     return desiredAccess;
 }
 
-void* mmap(void *addr, size_t len, int prot, int flags, int fildes, off_t off)
+MMAN_EXPORT void* mmap(void *addr, size_t len, int prot, int flags, int fildes, off_t off)
 {
     HANDLE fm, h;
     
@@ -126,7 +126,7 @@ void* mmap(void *addr, size_t len, int prot, int flags, int fildes, off_t off)
     return map;
 }
 
-int munmap(void *addr, size_t len)
+MMAN_EXPORT int munmap(void *addr, size_t len)
 {
     if (UnmapViewOfFile(addr))
         return 0;
@@ -136,7 +136,7 @@ int munmap(void *addr, size_t len)
     return -1;
 }
 
-int mprotect(void *addr, size_t len, int prot)
+MMAN_EXPORT int mprotect(void *addr, size_t len, int prot)
 {
     DWORD newProtect = __map_mmap_prot_page(prot);
     DWORD oldProtect = 0;
@@ -149,7 +149,7 @@ int mprotect(void *addr, size_t len, int prot)
     return -1;
 }
 
-int msync(void *addr, size_t len, int flags)
+MMAN_EXPORT int msync(void *addr, size_t len, int flags)
 {
     if (FlushViewOfFile(addr, len))
         return 0;
@@ -159,7 +159,7 @@ int msync(void *addr, size_t len, int flags)
     return -1;
 }
 
-int mlock(const void *addr, size_t len)
+MMAN_EXPORT int mlock(const void *addr, size_t len)
 {
     if (VirtualLock((LPVOID)addr, len))
         return 0;
@@ -169,7 +169,7 @@ int mlock(const void *addr, size_t len)
     return -1;
 }
 
-int munlock(const void *addr, size_t len)
+MMAN_EXPORT int munlock(const void *addr, size_t len)
 {
     if (VirtualUnlock((LPVOID)addr, len))
         return 0;
